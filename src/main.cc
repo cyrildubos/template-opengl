@@ -13,23 +13,25 @@
 #define WINDOW_HEIGHT 720
 #define WINDOW_TITLE "OpenGL"
 
-const char *vertex_shader_source = "#version 330 core\n"
-                                   "layout (location = 0) in vec3 a_Position;"
-                                   "layout (location = 1) in vec3 a_Color;"
-                                   "out vec3 v_Color;"
-                                   "void  main() { "
-                                   "  gl_Position = vec4(a_Position, 1.0); "
-                                   "  v_Color = a_Color; "
-                                   "}";
+const char *vertex_shader_source =
+    "#version 330 core\n"
+    "layout (location = 0) in vec3 a_Position;"
+    "layout (location = 1) in vec3 a_Color;"
+    "out vec3 v_Color;"
+    "void  main() { "
+    "  gl_Position = vec4(a_Position, 1.0); "
+    "  v_Color = a_Color; "
+    "}";
 
-const char *fragment_shader_source = "#version 330 core\n"
-                                     "in vec3 v_Color;"
-                                     "out vec4 f_Color;"
-                                     "void main() {"
-                                     "  f_Color = vec4(v_Color, 1.0);"
-                                     "}";
+const char *fragment_shader_source =
+    "#version 330 core\n"
+    "in vec3 v_Color;"
+    "out vec4 f_Color;"
+    "void main() {"
+    "  f_Color = vec4(v_Color, 1.0);"
+    "}";
 
-void check_shader(GLuint shader) {
+void CheckShader(GLuint shader) {
   GLint compile_status;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &compile_status);
 
@@ -82,12 +84,12 @@ int main() {
   GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
   glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
   glCompileShader(vertex_shader);
-  check_shader(vertex_shader);
+  CheckShader(vertex_shader);
 
   GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
   glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
   glCompileShader(fragment_shader);
-  check_shader(fragment_shader);
+  CheckShader(fragment_shader);
 
   GLuint program = glCreateProgram();
   glAttachShader(program, vertex_shader);
@@ -99,13 +101,13 @@ int main() {
 
   GLfloat data[] = {
       // positions        // colors
-      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, //
-      0.0f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, //
-      0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //
+      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  //
+      0.0f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f,  //
+      0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  //
   };
 
   GLuint indices[] = {
-      0, 1, 2, //
+      0, 1, 2,  //
   };
 
   GLuint vertex_array;
