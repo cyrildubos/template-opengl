@@ -1,10 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
+#include <stdio.h>
 
 #define OPENGL_VERSION_MAJOR 3
 #define OPENGL_VERSION_MINOR 3
@@ -31,12 +27,12 @@ const char *fragment_shader_source =
     "  f_Color = vec4(v_Color, 1.0);"
     "}";
 
-void CheckShader(GLuint shader) {
+void CheckShaderCompilation(GLuint shader) {
   GLint compile_status;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &compile_status);
 
   if (!compile_status) {
-    std::cerr << "Error: failed to compile shader" << std::endl;
+    fprintf(stderr, "Error: failed to compile shader\n");
 
     GLint info_log_length;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &info_log_length);
@@ -44,13 +40,13 @@ void CheckShader(GLuint shader) {
     GLchar info_log[info_log_length];
     glGetShaderInfoLog(shader, info_log_length, NULL, info_log);
 
-    std::cerr << info_log << std::endl;
+    fprintf(stderr, info_log);
   }
 }
 
 int main() {
   if (!glfwInit()) {
-    std::cerr << "Error: failed to initialize GLFW" << std::endl;
+    fprintf(stderr, "Error: failed to initialize GLFW\n");
 
     return -1;
   }
@@ -64,7 +60,7 @@ int main() {
       glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, NULL, NULL);
 
   if (!window) {
-    std::cerr << "Error: failed to create window" << std::endl;
+    fprintf(stderr, "Error: failed to create window\n");
 
     glfwTerminate();
 
@@ -74,7 +70,7 @@ int main() {
   glfwMakeContextCurrent(window);
 
   if (glewInit() != GLEW_OK) {
-    std::cerr << "Error: failed to initialize GLEW" << std::endl;
+    fprintf(stderr, "Error: failed to initialize GLEW\n");
 
     glfwTerminate();
 
@@ -84,12 +80,12 @@ int main() {
   GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
   glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
   glCompileShader(vertex_shader);
-  CheckShader(vertex_shader);
+  CheckShaderCompilation(vertex_shader);
 
   GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
   glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
   glCompileShader(fragment_shader);
-  CheckShader(fragment_shader);
+  CheckShaderCompilation(fragment_shader);
 
   GLuint program = glCreateProgram();
   glAttachShader(program, vertex_shader);
@@ -97,6 +93,10 @@ int main() {
   glLinkProgram(program);
   glDetachShader(program, vertex_shader);
   glDetachShader(program, fragment_shader);
+
+  glDeleteShader(vertex_shader);
+  glDeleteShader(fragment_shader);
+
   glUseProgram(program);
 
   GLfloat data[] = {
