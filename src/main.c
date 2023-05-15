@@ -9,23 +9,21 @@
 #define WINDOW_HEIGHT 720
 #define WINDOW_TITLE "OpenGL"
 
-const GLchar *vertex_shader_source =
-    "#version 330 core\n"
-    "layout (location = 0) in vec3 a_Position;"
-    "layout (location = 1) in vec3 a_Color;"
-    "out vec3 v_Color;"
-    "void  main() { "
-    "  gl_Position = vec4(a_Position, 1.0); "
-    "  v_Color = a_Color; "
-    "}";
+const GLchar* vertex_shader_source = "#version 330 core\n"
+                                     "layout (location = 0) in vec3 a_Position;"
+                                     "layout (location = 1) in vec3 a_Color;"
+                                     "out vec3 v_Color;"
+                                     "void  main() { "
+                                     "  gl_Position = vec4(a_Position, 1.0); "
+                                     "  v_Color = a_Color; "
+                                     "}";
 
-const GLchar *fragment_shader_source =
-    "#version 330 core\n"
-    "in vec3 v_Color;"
-    "out vec4 f_Color;"
-    "void main() {"
-    "  f_Color = vec4(v_Color, 1.0);"
-    "}";
+const GLchar* fragment_shader_source = "#version 330 core\n"
+                                       "in vec3 v_Color;"
+                                       "out vec4 f_Color;"
+                                       "void main() {"
+                                       "  f_Color = vec4(v_Color, 1.0);"
+                                       "}";
 
 void CheckShaderCompilation(GLuint shader) {
   GLint compile_status;
@@ -56,7 +54,7 @@ int main() {
 
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow *window =
+  GLFWwindow* window =
       glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, NULL, NULL);
 
   if (!window) {
@@ -101,13 +99,13 @@ int main() {
 
   GLfloat data[] = {
       // positions        // colors
-      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  //
-      0.0f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f,  //
-      0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  //
+      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, //
+      0.0f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, //
+      0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //
   };
 
   GLuint indices[] = {
-      0, 1, 2,  //
+      0, 1, 2, //
   };
 
   GLuint vertex_array;
@@ -121,12 +119,12 @@ int main() {
 
   GLint position_attribute = glGetAttribLocation(program, "a_Position");
   glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(GLfloat) * 6, (void *)0);
+                        sizeof(GLfloat) * 6, (void*)0);
   glEnableVertexAttribArray(position_attribute);
 
   GLint color_attribute = glGetAttribLocation(program, "a_Color");
   glVertexAttribPointer(color_attribute, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(GLfloat) * 6, (void *)(sizeof(GLfloat) * 3));
+                        sizeof(GLfloat) * 6, (void*)(sizeof(GLfloat) * 3));
   glEnableVertexAttribArray(color_attribute);
 
   while (!glfwWindowShouldClose(window)) {
